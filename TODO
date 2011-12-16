@@ -1,0 +1,6 @@
+- integrate patches
+- modify default sentence boundary detection
+- rules for the whole paragraph
+- LanguageTool rule import/export
+- supporting user defined modules
+- standalone Python version

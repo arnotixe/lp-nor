@@ -1,0 +1,127 @@
+# Sample proofreading rules for English
+
+# comments started by hash marks
+
+# base syntax of the rules:
+#
+# pattern -> suggestion # warning message
+
+# duplicates
+
+and and -> and # Did you mean:
+
+or or -> or # Did you mean:
+
+for for -> for # Did you mean:
+
+# multiword expressions
+
+comprises of -> comprises # Did you mean:
+
+# multiple suggestions separated by "\n"
+
+scot free -> scot-free\nscotfree # Did you mean:
+
+ying and yang -> yin and yang # Did you mean:
+
+# frequent mistakes
+
+# silent h
+
+a honest -> an honest # Did you mean:
+a honesty -> an honesty # Did you mean:
+a honestly -> an honestly # Did you mean:
+
+# or abbreviated form (regular expression):
+
+a (honest|honesty|honestly) -> an \1 # Did you mean:
+
+# a more complicated regular expressions to handle silent h:
+
+a (honest(y|ly)?|hour(ly|glass)?|honou?r(abl[ey]|ed|ing|ifics?|s)|heir(less|loom)?) -> an \1 # Did you mean:
+
+# possessive pronouns
+# Your's -> Yours
+(your|her|our|their)['’]s -> \1s # Did you mean:
+
+# rare words (potential errors)
+
+# accept foreign words only in multiword expressions
+
+de(?! (facto|jure|luxe)) -> de facto\nde jure\nde luxe # Missing expression?
+
+# rules for character level
+
+[char]
+
+# punctuation
+
+" ([.?!,:;)”—]($| ))" -> \1	# Extra space before punctuation.
+"([(“—]) " -> \1		# Extra space after punctuation.
+
+"^[-—] " -> "– "		# Hyphen instead of en dash.
+" [-—]([ ,;])" -> " –\1"	# Hyphen instead of en dash.
+
+TEST: ( item ) -> (item)
+TEST: A small - but reliable - example. -> A small – but reliable – example.
+
+# definitions
+abc [a-z]+
+ABC [A-Z]+
+Abc [a-zA-Z]+
+punct [?!,:;%‰‱˚“”‘]
+
+{Abc}{punct}{Abc} -> {Abc}{punct} {Abc}	# Missing space?
+{abc}[.]{ABC} -> {abc}. {ABC}		# Missing space?
+TEST: missing,space -> missing, space
+TEST: missing.Space -> missing. Space
+
+(\d+)x(\d+) -> \1×\2 # Multiplication sign.
+TEST: 800x600 -> 800×600
+
+# typography
+"[.]{3}" -> "…"			# Three dot character.
+
+(^|\b|{punct}|[.]) {2,3}(\b|$) -> "\1 " # Extra space.
+TEST: Extra  space -> Extra space
+TEST: End... -> End…
+
+# quotation
+
+\"(\w[^\"“”]*[\w.?!,])\" -> “\1”	# Quotion marks.
+\B'(\w[^']*[\w.?!,])'\B -> ‘\1’		# Quotion marks.
+TEST: "The 'old' boy." -> “The ‘old’ boy.”
+
+# apostrophe
+
+w \w*
+(?i){Abc}'{w} -> {Abc}’{w}	# Typographic apostrophe.
+TEST: o'clock -> o’clock
+TEST: singers' voices -> singers’ voices
+
+# formats
+
+# Thousand separators: 10000 -> 10,000  (common) or 10 000 (ISO standard)
+
+# definitions
+d	\d\d\d		# name definition: 3 digits
+d2	\d\d		# 2 digits
+D	\d{1,3}		# 1, 2 or 3 digits
+
+# ISO thousand separators: space, here: no-break space (U+00A0)
+\b{d2}{d}\b 	 <- option("numsep") -> {d2},{d}\n{d2} {d}			# Use thousand separator (common or ISO).
+\b{D}{d}{d}\b 	 <- option("numsep") -> {D},{d},{d}\n{D} {d} {d}		# Use thousand separators (common or ISO).
+\b{D}{d}{d}{d}\b <- option("numsep") -> {D},{d},{d},{d}\n{D} {d} {d} {d}	# Use thousand separators (common or ISO).
+TEST: 1234567890 -> 1,234,567,890\n1 234 567 890
+
+# word duplication
+
+W [-\w]{3,}
+
+# within clauses
+
+{W}(?: [-–\w“”]+)* \1 <- option("dup") -> {W} # Word duplication?
+
+# within sentences
+
+{W}(?: [-–\w“”]+[;,:]?)* \1 <- option("dup2") -> {W} # Word duplication?

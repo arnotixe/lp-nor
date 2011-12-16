@@ -1,0 +1,39 @@
+Lightproof grammar checker development framework for OpenOffice.org
+
+http://launchpad.net/lightproof
+
+version 1.4.3 (2011-12-05)
+
+2009–2011 (c) László Németh (nemeth at OO.o), license: MPL 1.1 / GPLv3+ / LGPLv3+
+
+This software was developed with support from FSF.hu Foundation, Hungary.
+(For more information, see http://www.fsf.hu/index.php/About_us.)
+
+== Features ==
+
+- Lightproof is a grammar checker extension generator (see doc/manual.txt):
+  the result of the generation is a single Lightproof or vendor specific
+  grammar checker language package, eg. lightproof-en_US.oxt or
+  your-grammar-checker-en_US.oxt.
+
+- language-neutral proofreading tool (see data/ for language data)
+- OpenOffice.org grammar checker extension generator
+- high-level regex-based rule definition language
+- optional Python conditions in the rules
+- integration with Hunspell morphological analyzer
+- written in Python using fast regex module of CPython
+- lazy loading of language modules
+- template (data/template.dat) for new languages
+
+== Rule compilation ==
+
+For the default language modules (en_US, hu_HU, ru_RU):
+
+make
+
+See doc/manual.txt to add a new language module or develop a
+new grammar checker extension for your language
+
+== Documentation ==
+
+doc/manual.txt

@@ -1,0 +1,7 @@
+# Casing test
+
+xxx -> isim
+TEST: Xxx -> İsim
+
+ixxx -> yyy
+TEST: İxxx -> Yyy

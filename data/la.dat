@@ -1,0 +1,16 @@
+[word]
+
+ante -> portas # hello
+
+u \w+u\w*|\w*u\w+
+{u} <- option("classic") and morph({u}, "mo:u") -> = classical({u}, morph({u}, r"(?<=al:)\w+")) # Universal form?
+
+[code]
+
+def classical(wxx, w):
+    wu = w.replace("v", "u")
+    if wu == wxx[:len(wu)]:
+        return w + wxx[len(wu) + 1:]
+    if wu.capitalize() == wxx[:len(wu)]:
+        return w.capitalize() + wxx[len(wu) + 1:]
+    return suggest(wxx)

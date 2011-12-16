@@ -1,0 +1,41 @@
+# Options and title texts for the Settings and conditional rules
+#
+# The Lightproof dialogs contain only grouped checkboxes.
+#
+# Format of the dialog definition:
+#
+# GroupID: OptionID, OptionID ...
+# Group2ID: OptionID, OptionID ...
+# ...
+# [Language_code=title of the window]
+# OptionID=title of the option
+# Option2ID=title of the option
+#
+# The first language is the default language for other locales
+# (use en_US or the common language of your country)
+#
+# The OptionIDs declared here are used in the rules, too. For example:
+#
+# foo <- option("style") -> bar # bar is far better
+#
+# this rule depends from the state of the "style" checkbox.
+
+# options (starred options are checked)
+
+spelling: hyphen, comma
+proofreading: style, dup, dup2
+others: *numsep
+
+# titles
+
+[en_US=Grammar checking (English)]
+
+spelling=Spelling
+hyphen=Compound words with hyphen
+comma=Comma usage
+proofreading=Proofreading
+style=Style checking
+dup=Word duplication within clauses
+dup2=Word duplication within sentences
+others=Others
+numsep=Separation of large numbers

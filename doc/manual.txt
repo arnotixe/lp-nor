@@ -1,0 +1,35 @@
+Making a new grammar checker for LibreOffice/OpenOffice.org
+
+1. Rename data/template.dat (optionally template.dlg) to your locale ID, ie.
+   xx_YY.dat or xx.dat with language and country identifiers).
+
+2. Translate messages, modify or add new rules (see doc/syntax.txt).
+
+3. Delete the contents of the dialog/ and pythonpath/ subdirectories
+
+4. Compile your data by the following Python command:
+
+python make.py -v version_of_your_extension -d data your_locale
+
+5. Zip your extension with the following files and subdirectories:
+
+zip -r name_of_your_extension.oxt META-INF pythonpath dialog Lightproof.py *xcu *xml your_README_file
+
+   In a Unix-like environment you can also extend the Makefile with an
+   your_locale target to simplify the step 3-5.
+
+6. Check it in the LibreOffice Tools->Options->Language Settings->
+   Writing Aids after the installation by the Tools->Extension manager->
+   Add dialog and menu item.
+
+   Note: Without country identifiers (xx.dat, not xx_XX.dat data files)
+   the grammar checking won't be default for this language. Choose Lightproof
+   grammar checker in the Writings Aid Options page and click on the Edit
+   button. Select your language in the Edit Modules dialog, and check
+   in the grammar checker.
+
+Testing
+
+Use unopkg tool to install a Lightproof extension:
+ 
+
