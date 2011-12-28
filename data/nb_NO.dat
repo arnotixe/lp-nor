@@ -1,0 +1,217 @@
+# Proofreading rules for Norwegian (Bokmål)
+
+# comments started by hash marks
+
+# base syntax of the rules:
+#
+# pattern -> suggestion # warning message
+
+# # # # # # # # # # # # # # # 
+# Duplikater
+# # # # # # # # # # # # # # # 
+
+å og -> og å # OG/Å, mente du:
+
+for og -> for å # OG/Å, mente du:
+
+# multiword expressions
+# multiple suggestions separated by "\n"
+# scot free -> scot-free\nscotfree # Did you mean:
+
+ying og yang -> yin og yang # Mente du:
+
+# frequent mistakes
+# or abbreviated form (regular expression):
+# a (honest|honesty|honestly) -> an \1 # Did you mean:
+# a more complicated regular expressions to handle silent h:
+# a (honest(y|ly)?|hour(ly|glass)?|honou?r(abl[ey]|ed|ing|ifics?|s)|heir(less|loom)?) -> an \1 # Did you mean:
+
+# possessive pronouns
+# Your's -> Yours
+#(your|her|our|their)['’]s -> \1s # Did you mean:
+
+# apostrofbruk foran genitivs-S i ord som ikke er egennavn:
+([a-zæøå]+)['’]s -> \1s # Genitiv?:
+
+
+# rare words (potential errors)
+
+# accept foreign words only in multiword expressions
+
+de(?! (facto|jure|luxe)) -> de facto\nde jure\nde luxe # Mangler del av uttrykk?
+
+# rules for character level
+
+[char]
+
+# punctuation
+
+" ([.?!,:;)”—]($| ))" -> \1	# Extra space before punctuation.
+"([(“—]) " -> \1		# Extra space after punctuation.
+
+"^[-—] " -> "– "		# Hyphen instead of en dash.
+" [-—]([ ,;])" -> " –\1"	# Hyphen instead of en dash.
+
+TEST: ( item ) -> (item)
+TEST: A small - but reliable - example. -> A small – but reliable – example.
+
+# definitions
+abc [a-z]+
+ABC [A-Z]+
+Abc [a-zA-Z]+
+punct [?!,:;%‰‱˚“”‘]
+
+{Abc}{punct}{Abc} -> {Abc}{punct} {Abc}	# Missing space?
+{abc}[.]{ABC} -> {abc}. {ABC}		# Missing space?
+TEST: missing,space -> missing, space
+TEST: missing.Space -> missing. Space
+
+(\d+)x(\d+) -> \1×\2 # Multiplication sign.
+TEST: 800x600 -> 800×600
+
+# typography
+"[.]{3}" -> "…"			# Three dot character.
+
+(^|\b|{punct}|[.]) {2,3}(\b|$) -> "\1 " # Extra space.
+TEST: Extra  space -> Extra space
+TEST: End... -> End…
+
+# quotation
+
+\"(\w[^\"“”]*[\w.?!,])\" -> “\1”	# Quotion marks.
+\B'(\w[^']*[\w.?!,])'\B -> ‘\1’		# Quotion marks.
+TEST: "The 'old' boy." -> “The ‘old’ boy.”
+
+# apostrophe
+
+w \w*
+(?i){Abc}'{w} -> {Abc}’{w}	# Typographic apostrophe.
+TEST: o'clock -> o’clock
+TEST: singers' voices -> singers’ voices
+
+# formats
+
+# Thousand separators: 10000 -> 10,000  (common) or 10 000 (ISO standard)
+
+# definitions
+d	\d\d\d		# name definition: 3 digits
+d2	\d\d		# 2 digits
+D	\d{1,3}		# 1, 2 or 3 digits
+
+# ISO thousand separators: space, here: no-break space (U+00A0)
+\b{d2}{d}\b 	 <- option("numsep") -> {d2} {d}	# Bruk tusenskilletegn:
+\b{D}{d}{d}\b 	 <- option("numsep") -> {D} {d} {d}	# Bruk tusenskilletegn:
+\b{D}{d}{d}{d}\b <- option("numsep") -> {D} {d} {d} {d}	# Bruk tusenskilletegn:
+TEST: 1234567890 -> 1 234 567 890
+
+# word duplication
+
+W [-\w]{3,}
+
+# within clauses
+
+{W}(?: [-–\w“”]+)* \1 <- option("dup") -> {W} # Repetert ord(c)?
+
+# within sentences
+
+{W}(?: [-–\w“”]+[;,:]?)* \1 <- option("dup2") -> {W} # Repetert ord(s)?
+
+################### measurements ##########################
+
+[word]
+
+# Temperature
+
+([-−]?\d+(?:[,.]\d+)*)[ ]*(°F|Fahrenheit) <- option("metric") -> = measurement(\1, "F", "C", u" °C", ".", ",") # Celsius:
+([-−]?\d+(?:[,.]\d+)*)[ ]*(°C|Celsius) <- option("nonmetric") -> = measurement(\1, "C", "F", u" °F", ".", ",") # Fahrenheit:
+
+# Length
+
+([-−]?\d+(?:[,.]\d+)*(?: 1/2| ?½)?)[ ]*(ft|foot|feet)(?! [1-9]) <- option("metric") -> =
+	measurement(\1, "ft", "cm", " cm", ".", ",") + "\n" +
+	measurement(\1, "ft", "m", " m", ".", ",") # Metrisk:
+
+([-−]?\d+(?:[,.]\d+)*(?: 1/2| ?½)?)[ ]*ft[.]? ([0-9]+(?: 1/2| ?½)?) in <- option("metric") -> =
+	measurement(\1 + "*12+" + \2, "in", "cm", " cm", ".", ",") + "\n" +
+	measurement(\1 + "*12+" + \2, "in", "m", " m", ".", ",") # Metrisk:
+
+([-−]?\d+(?:[,.]\d+)*(?: 1/2| ?½)?)[ ]*in <- option("metric") -> =
+	measurement(\1, "in", "mm", " mm", ".", ",") + "\n" +
+	measurement(\1, "in", "cm", " cm", ".", ",") + "\n" +
+	measurement(\1, "in", "m", " m", ".", ",") # Metrisk:
+
+([-−]?\d+(?:[,.]\d+)*)[ ]*mm <- option("nonmetric") -> =
+	measurement(\1, "mm", "in", " in", ".", ",") # Imperialsk:
+
+([-−]?\d+(?:[,.]\d+)*)[ ]*cm <- option("nonmetric") -> =
+	measurement(\1, "cm", "in", " in", ".", ",") + "\n" +
+	measurement(\1, "cm", "ft", " ft", ".", ",") # Imperialsk:
+
+([-−]?\d+(?:[,.]\d+)*)[ ]*(m|meter|metre) <- option("nonmetric") -> =
+	measurement(\1, "m", "in", " in", ".", ",") + "\n" +
+	measurement(\1, "m", "ft", " ft", ".", ",") + "\n" +
+	measurement(\1, "m", "mi", " mi", ".", ",") # Imperialsk:
+
+([-−]?\d+(?:[,.]\d+)*(?: 1/2| ?½)?)[ ]*miles? <- option("metric") -> =
+	measurement(\1, "mi", "m", " m", ".", ",") + "\n" +
+	measurement(\1, "mi", "km", " km", ".", ",") # Metrisk:
+
+([-−]?\d+(?:[,.]\d+)*)[ ]*km <- option("nonmetric") -> =
+	measurement(\1, "km", "mi", " mi", ".", ",") # Miles:
+
+([-−]?\d+(?:,\d+)?)[ ]*(yd|yards?) <- option("metric") -> = measurement(\1, "yd", "m", " m", ".", ",") # Metrisk:
+
+# Volume
+
+([-−]?\d+(?:,\d+)?)[ ]*(gal(lons?)?) <- option("metric") -> =
+	measurement(\1, "gal", "l", " l", ".", ",") + "\n" + 
+	measurement(\1, "uk_gal", "l", " l (in UK)", ".", ",") # Metrisk:
+
+([-−]?\d+(?:,\d+)?)[ ]*(pint) <- option("metric") -> = 
+	measurement(\1, "pt", "dl", " dl", ".", ",") + "\n" + 
+	measurement(\1, "uk_pt", "dl", " dl (in UK)", ".", ",") + "\n" +
+	measurement(\1, "pt", "l", " l", ".", ",") + "\n" + 
+	measurement(\1, "uk_pt", "l", " l (in UK)", ".", ",") # Metrisk:
+
+([-−]?\d+(?:,\d+)?)[ ]*(l|L|litres?|liters?) <- option("nonmetric") -> =
+	measurement(\1, "l", "gal", " gal", ".", ",") + "\n" + 
+	measurement(\1, "l", "gal", " gal (in UK)", ".", ",") # Gallons:
+
+# Weight
+
+([-−]?\d+(?:[,.]\d+)*)[ ]*lbs?[.]? <- option("metric") -> =
+	measurement(\1, "lbm", "kg", " kg", ".", ",") # Metrisk:
+([-−]?\d+(?:[,.]\d+)*)[ ]*kg[.]? <- option("nonmetric") -> =
+	measurement(\1, "kg", "lbm", " lb", ".", ",") # Pund:
+
+# Speed
+
+([-−]?\d+(?:[,.]\d+)*)[ ]*mph <- option("metric") -> = measurement(\1, "mph", "km/h", " km/h", ".", ",") # Km/t:
+([-−]?\d+(?:[,.]\d+)*)[ ]*km/h <- option("nonmetric") -> = measurement(\1, "km/h", "mph", " mph", ".", ",") # Miles/t:
+
+######################## False friends #########################
+#DONE:
+#-
+#TODO:
+#http://sv.wikipedia.org/wiki/Lista_%C3%B6ver_falska_v%C3%A4nner_mellan_svenska_och_%C3%B6vriga_nordiska_spr%C3%A5k
+#http://sv.wikipedia.org/wiki/Lista_%C3%B6ver_falska_v%C3%A4nner_mellan_svenska_och_engelska
+#http://sv.wikipedia.org/wiki/Lista_%C3%B6ver_falska_v%C3%A4nner
+#http://sv.wikipedia.org/wiki/Lista_%C3%B6ver_falska_v%C3%A4nner_mellan_svenska_och_tyska
+
+
+aktuell <- option("falsefriends_en_US") -> faktisk # Engelsk falsk venn: 'actual'
+antikk <- option("falsefriends_en_US") -> bisarr\nmerkelig\nunderlig # Engelsk falsk venn: 'antic'
+korn <- option("falsefriends_en_US") -> mais # Engelsk falsk venn: 'corn'
+rar <- option("falsefriends_da_DK") -> snill # Dansk falsk venn: 'rar'
+
+######################## CODE ########################
+[code]
+
+def measurement(mnum, min, mout, mstr, decimal, remove):
+    if min == "ft" or min == "in" or min == "mi":
+        mnum = mnum.replace(" 1/2", ".5").replace(u" ½", ".5").replace(u"½",".5")
+    m = calc("CONVERT_ADD", (float(eval(mnum.replace(remove, "").replace(decimal, ".").replace(u"−", "-"))), min, mout))
+    a = list(set([str(calc("ROUND", (m, 0)))[:-2], str(calc("ROUND", (m, 1))), str(calc("ROUND", (m, 2))), str(m)])) # remove duplicated rounded items
+    a.sort(lambda x, y: len(x) - len(y)) # sort by string length
+    return join(a, mstr + "\n").replace(".", decimal).replace("-", u"−") + mstr
+

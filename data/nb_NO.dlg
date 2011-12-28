@@ -1,0 +1,60 @@
+# Options and title texts for the Settings and conditional rules
+#
+# The Lightproof dialogs contain only grouped checkboxes.
+#
+# Format of the dialog definition:
+#
+# GroupID: OptionID, OptionID ...
+# Group2ID: OptionID, OptionID ...
+# ...
+# [Language_code=title of the window]
+# OptionID=title of the option
+# Option2ID=title of the option
+#
+# The first language is the default language for other locales
+# (use en_US or the common language of your country)
+#
+# The OptionIDs declared here are used in the rules, too. For example:
+#
+# foo <- option("style") -> bar # bar is far better
+#
+# this rule depends from the state of the "style" checkbox.
+
+# options (starred options are checked)
+
+spelling: grammar cap dup pair
+punctuation: *spaces mdash quotation *times, spaces2 ndash apostrophe ellipsis, spaces3 minus - -
+others: metric numsep, nonmetric, falsefriends_en_US, falsefriends_da_DK
+
+
+# titles
+[nb_NO=Grammatikkontroll (Bokmål)]
+spelling=Staving
+hyphen=Sammenskrevne ord skrevet med bindestrek
+comma=Kommabruk
+proofreading=Korrekturlesing
+style=Stilsjekking
+dup=Ordrepetisjon innen delsetninger
+dup2=Ordrepetisjon innen setninger
+others=Andre
+falsefriends=Falske venner
+numsep=Riktig formatering av tall
+grammar=Possible mistakes \n Check more grammar errors.
+cap=Capitalization \n Check missing capitalization of sentences.
+dup=Word duplication \n Check repeated words.
+pair=Parentheses \n Check missing or extra parentheses and quotation marks.
+punctuation=Punctuation
+spaces=Word spacing\nCheck single spaces between words.
+mdash=Em dash\nForce unspaced em dash instead of spaced en dash.
+ndash=En dash\nForce spaced en dash instead of unspaced em dash.
+quotation=Quotation marks\nCheck double quotation marks: "x" → “x”
+times=Gangetegn\nRett x til gangetegn: 5x5 → 5×5
+spaces2=Setningsmellomrom\nRett opp for mange mellomrom mellom setninger.
+spaces3=Ordmellomrom\nRett opp for mange mellomrom mellom ord.
+minus=Minustegn\nBindestrek til ekte minustegn.
+apostrophe=Apostrof\nRett apostrofer o.l. til typografisk riktige tegn
+ellipsis=Ellipsis\nEndre tre punktum til ellipsis.
+metric=Konvertér til metrisk (°C, km/h, m, kg, l)\nKonvertering av måleenheter fra °F, mph, ft, in, lb, gallon og mile.
+nonmetric=Konvertér til ikke-metrisk (°F, mph, ft, lb, gal)\nKonvertering av måleenheter fra °C; km/t; cm, m, km; kg; l. 
+falsefriends_en_US=Engelske falske venner
+falsefriends_da_DK=Danske falske venner

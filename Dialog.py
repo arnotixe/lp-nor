@@ -63,6 +63,7 @@ xcu_header = u"""<?xml version='1.0' encoding='UTF-8'?>
                         <prop oor:name="Label">
                                 <value xml:lang="en">Dictionaries</value>
                                 <value xml:lang="hu">Szótárak</value>
+                                <value xml:lang="nb">Ordbøker</value>
                         </prop>
                         <node oor:name="Leaves">
 """

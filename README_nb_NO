@@ -1,0 +1,13 @@
+Norwegian (Bokmål) Lightproof grammar checker for OpenOffice.org
+
+http://launchpad.net/lightproof
+
+version 1.4.3 (2011-12-05)
+
+2009–2011 (c) László Németh (nemeth at OO.o), license: MPL 1.1 / GPLv3+ / LGPLv3+
+
+This software was developed with support from FSF.hu Foundation, Hungary.
+(For more information, see http://www.fsf.hu/index.php/About_us.)
+
+== Features ==
+- duplicate word checks

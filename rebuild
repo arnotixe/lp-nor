@@ -1,0 +1,1 @@
+make clean; make nb_NO; LANG=nb_NO soffice lightproof-nb_NO-0.1.oxt && soffice ~/nbtest.odt
