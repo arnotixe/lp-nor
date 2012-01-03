@@ -2,9 +2,9 @@
 <description xmlns="http://openoffice.org/extensions/description/2006"
         xmlns:d="http://openoffice.org/extensions/description/2006"
         xmlns:xlink="http://www.w3.org/1999/xlink">
-        <identifier value="org.openoffice.comp.pyuno.lightproof.oxt.en_US" />
+        <identifier value="org.openoffice.comp.pyuno.lightproof.oxt.nb_NO" />
         <display-name>
-                <name lang="en-US">Lightproof (en_US)</name>
+                <name lang="en-US">Lightproof (nb_NO)</name>
         </display-name>
         <version value="0.1" />
         <publisher>

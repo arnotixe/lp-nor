@@ -1,22 +1,40 @@
-# Proofreading rules for Norwegian (Bokmål)
+# Korrekturregler for Norsk (Bokmål)
 
-# comments started by hash marks
+# Alt som begynner med # er kommentarer
 
-# base syntax of the rules:
+# Regelsyntaks:
 #
-# pattern -> suggestion # warning message
+# 1 mønster -> forslag # Advarselstekst
+#   # Enkel erstatter.
+#   # Mønstrene er python-regex
+# 
+# 2 rask -> kjapp\nhurtig # Synonym
+#   # Flere forslag separert med "\n"
+#
+# 3 det det <- option("duplicates") -> det
+#   # Erstatt bare hvis opsjonen "duplicates" er krysset av. 
+#   # Se nb_NB.dlg for å legge til opsjoner
+#
+# <<<<Det under krever grammatikk-tags i nb_NO.dic/.aff>>>>
+#     ( Arnos test-ordlister )
+#
+# 4 (gutten) <- morph(\1, r"po:noun") -> morph(\1, r"st:\w") # gutten
+#   # Kjør morfologisk analyse av første argument til morph(), og 
+#   #  returnér resultatet av det andre morph()-kallet hvis regex r"" treffer
+#   #  (i eksempelet, TRUE hvis gutt|en har bl.a. "po:noun" satt i nb_NO.aff,
+#   #   returneres "st:gutt")
 
 # # # # # # # # # # # # # # # 
 # Duplikater
 # # # # # # # # # # # # # # # 
 
+# multiword expressions
+# scot free -> scot-free\nscotfree # Did you mean:
+
+
 å og -> og å # OG/Å, mente du:
 
 for og -> for å # OG/Å, mente du:
-
-# multiword expressions
-# multiple suggestions separated by "\n"
-# scot free -> scot-free\nscotfree # Did you mean:
 
 ying og yang -> yin og yang # Mente du:
 
@@ -31,26 +49,28 @@ ying og yang -> yin og yang # Mente du:
 #(your|her|our|their)['’]s -> \1s # Did you mean:
 
 # apostrofbruk foran genitivs-S i ord som ikke er egennavn:
+# OPSJON
 ([a-zæøå]+)['’]s -> \1s # Genitiv?:
+# OPSJON
+([A-ZÆØÅa-zæøå]+)['’]s -> \1s # Genitiv?:
 
 
-# rare words (potential errors)
+# sjeldne ord (mulighet for feil)
+# aksepter bare sjeldne ord i faste uttrykk
 
-# accept foreign words only in multiword expressions
-
+# OPSJON
 de(?! (facto|jure|luxe)) -> de facto\nde jure\nde luxe # Mangler del av uttrykk?
 
 # rules for character level
-
 [char]
 
-# punctuation
+# Tegnsetting
+# OPSJON
+" ([.?!,:;)”—]($| ))" -> \1	# Ikke mellomrom før tegn
+"([(“—]) " -> \1		# Ikke mellomrom etter tegn
 
-" ([.?!,:;)”—]($| ))" -> \1	# Extra space before punctuation.
-"([(“—]) " -> \1		# Extra space after punctuation.
-
-"^[-—] " -> "– "		# Hyphen instead of en dash.
-" [-—]([ ,;])" -> " –\1"	# Hyphen instead of en dash.
+"^[-—] " -> "– "		# Tankestrek
+" [-—]([ ,;])" -> " –\1"	# Tankestrek
 
 TEST: ( item ) -> (item)
 TEST: A small - but reliable - example. -> A small – but reliable – example.
@@ -66,28 +86,32 @@ punct [?!,:;%‰‱˚“”‘]
 TEST: missing,space -> missing, space
 TEST: missing.Space -> missing. Space
 
-(\d+)x(\d+) -> \1×\2 # Multiplication sign.
+
+# Typografi
+"[.]{3}" -> "…"			# Ellipsis
+
+(\d+)x(\d+) -> \1×\2 # Gangetegn
 TEST: 800x600 -> 800×600
 
-# typography
-"[.]{3}" -> "…"			# Three dot character.
+
 
 (^|\b|{punct}|[.]) {2,3}(\b|$) -> "\1 " # Extra space.
 TEST: Extra  space -> Extra space
 TEST: End... -> End…
 
-# quotation
+# Anførselstegn
 
-\"(\w[^\"“”]*[\w.?!,])\" -> “\1”	# Quotion marks.
-\B'(\w[^']*[\w.?!,])'\B -> ‘\1’		# Quotion marks.
-TEST: "The 'old' boy." -> “The ‘old’ boy.”
+\"(\w[^\"“”]*[\w.?!,])\" -> “\1”	# Anførselstegn
+\B'(\w[^']*[\w.?!,])'\B -> ‘\1’		# Anførselstegn
+TEST: "Den 'gamle' gutten." -> “Den ‘gamle’ gutten.”
 
-# apostrophe
+# Apostrof (Finnes dette på norsk?)
+# w \w*
+# (?i){Abc}'{w} -> {Abc}’{w}	# Apostrof
+# TEST: o'clock -> o’clock
+# TEST: singers' voices -> singers’ voices
 
-w \w*
-(?i){Abc}'{w} -> {Abc}’{w}	# Typographic apostrophe.
-TEST: o'clock -> o’clock
-TEST: singers' voices -> singers’ voices
+
 
 # formats
 
@@ -104,21 +128,47 @@ D	\d{1,3}		# 1, 2 or 3 digits
 \b{D}{d}{d}{d}\b <- option("numsep") -> {D} {d} {d} {d}	# Bruk tusenskilletegn:
 TEST: 1234567890 -> 1 234 567 890
 
-# word duplication
+[word]
 
-W [-\w]{3,}
+# Dupliserte ord
 
-# within clauses
+# Ord som begynner med små bokstaver:
+lcord [a-zæøå]\w* 
 
-{W}(?: [-–\w“”]+)* \1 <- option("dup") -> {W} # Repetert ord(c)?
+{lcord} \1 <- not {lcord} in RepUnntak -> {lcord} # Duplikat
+TEST: jeg meg meg du -> jeg meg du
+TEST: var det det gjaldt -> var det det gjaldt
 
-# within sentences
+# Gjentatte ord
+W [-\w]{1,}
 
-{W}(?: [-–\w“”]+[;,:]?)* \1 <- option("dup2") -> {W} # Repetert ord(s)?
+# UNFINISHED VERY BAD HACKING HERE
+({W})(( [-–\w“”]+)+) \1 <- not {W} in GjentUnntak -> {W}\3 # Gjentakelse
+TEST: bilen det gjelder, er den grønne bilen, ja. -> bilen det gjelder, er den grønne, ja.
+TEST: Tanken som teller, er den som gjelder. -> Tanken som teller, er den som gjelder.
+
+# MY FIRST DEFINED FORM HACK, very bad :D
+#(gutten) <- morph(\1, r"po:(noun)") -> \1en # Bestemt form!
+#({W}) <- morph(\1, r"po:noun") and not morph(\1, r"is:def") -> \1en # Bestemt form!
+#TEST: gutt -> gutten
+
+# EN ~
+(en) ({W}) <- morph(\2, r"po:noun") and morph(\2, r"is:def") -> = \1 + " " + stem(\2) + "\nden " + \2 # Samsvar: bestemthet
+
+# DEN ~
+(den) ({W}) <- morph(\2, r"po:noun") and not morph(\2, r"is:def") -> = "en " + \2 + "\nden " + \2 + "en" # Samsvar: bestemthet
+TEST: den gutt -> en gutt\nden gutten
+
+# FIXME: foreslå bestemt form av \2: foreslå "gutt|en" for "gutt"; "brygge|n" for "brygge"
+
+
+# within sentences (engelsk, fungerer ikke bra)
+# {W}(?: [-–\w“”]+[;,:]?)* \1 <- option("dup2") and {W} not in GjentUnntak -> {W} # Gjentatt ord?
+
+
 
 ################### measurements ##########################
 
-[word]
 
 # Temperature
 
@@ -186,7 +236,7 @@ W [-\w]{3,}
 
 # Speed
 
-([-−]?\d+(?:[,.]\d+)*)[ ]*mph <- option("metric") -> = measurement(\1, "mph", "km/h", " km/h", ".", ",") # Km/t:
+([-−]?\d+(?:[,.]\d+)*)[ ]*mph <- option("metric") -> = measurement(\1, "mph", "km/h", " km/t", ".", ",") # Km/t:
 ([-−]?\d+(?:[,.]\d+)*)[ ]*km/h <- option("nonmetric") -> = measurement(\1, "km/h", "mph", " mph", ".", ",") # Miles/t:
 
 ######################## False friends #########################
@@ -214,4 +264,7 @@ def measurement(mnum, min, mout, mstr, decimal, remove):
     a = list(set([str(calc("ROUND", (m, 0)))[:-2], str(calc("ROUND", (m, 1))), str(calc("ROUND", (m, 2))), str(m)])) # remove duplicated rounded items
     a.sort(lambda x, y: len(x) - len(y)) # sort by string length
     return join(a, mstr + "\n").replace(".", decimal).replace("-", u"−") + mstr
+
+RepUnntak = set(["det", "graver"])
+GjentUnntak = set(["som", "at", "for", "det", "en", "i"])
 

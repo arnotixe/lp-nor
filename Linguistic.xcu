@@ -5,10 +5,10 @@
         <node oor:name="ServiceManager">
 
                 <node oor:name="GrammarCheckers">
-                        <node oor:name="org.openoffice.comp.pyuno.Lightproof.en_US"
+                        <node oor:name="org.openoffice.comp.pyuno.Lightproof.nb_NO"
                                 oor:op="fuse">
                                 <prop oor:name="Locales" oor:type="oor:string-list">
-                                        <value>en-US</value>
+                                        <value>nb-NO</value>
                                 </prop>
                         </node>
                 </node>

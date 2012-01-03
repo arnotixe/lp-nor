@@ -10,24 +10,24 @@
                         </prop>
                         <node oor:name="Leaves">
 
-                                <node oor:name="org.openoffice.lightproof.en_US" oor:op="fuse">
+                                <node oor:name="org.openoffice.lightproof.nb_NO" oor:op="fuse">
                                         
                                         <prop oor:name="Id">
-                                                <value>org.openoffice.comp.pyuno.lightproof.oxt.en_US</value>
+                                                <value>org.openoffice.comp.pyuno.lightproof.oxt.nb_NO</value>
                                         </prop>
                                         
                                         <prop oor:name="Label">
 
-                                                <value xml:lang="en">English sentence checking</value>
+                                                <value xml:lang="nb">Grammatikkontroll (Bokmål)</value>
 
                                         </prop>
                                         
                                         <prop oor:name="OptionsPage">
-                                                <value>%origin%/en_US.xdl</value>
+                                                <value>%origin%/nb_NO.xdl</value>
                                         </prop>
                                         
                                         <prop oor:name="EventHandlerService">
-                                                <value>org.openoffice.comp.pyuno.LightproofOptionsEventHandler.en_US</value>
+                                                <value>org.openoffice.comp.pyuno.LightproofOptionsEventHandler.nb_NO</value>
                                         </prop>
                                         
                                 </node>

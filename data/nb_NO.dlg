@@ -1,33 +1,41 @@
-# Options and title texts for the Settings and conditional rules
+# Opsjoner og titteltekster for lightproof-innstillinger
 #
-# The Lightproof dialogs contain only grouped checkboxes.
+# Lightproof-dialogvinduer inneholder bare avkryssingsboks-opsjoner, gruppert.
 #
-# Format of the dialog definition:
+# Definisjon av dialogboks-vinduer:
 #
-# GroupID: OptionID, OptionID ...
-# Group2ID: OptionID, OptionID ...
+### Først settes dialogvindu-strukturen opp:
+# Guppe1-ID: Opsjons-ID, Opsjons-ID ...
+# Guppe2-ID: Opsjons-ID, Opsjons-ID ...
 # ...
-# [Language_code=title of the window]
-# OptionID=title of the option
-# Option2ID=title of the option
+# 
+### Så titler, på ett eller flere språk:
+# [Språkkode=vindustittel]
+# Opsjons-ID=opsjonstittel på det språket
+# Opsjons-ID=opsjonstittel
+# ...
+# [Språkkode2=vindustittel2]
+# <opsjoner, oversatt til språk2>
 #
-# The first language is the default language for other locales
-# (use en_US or the common language of your country)
+# Det første språket definert blir brukt som standard for andre lokaler.
+# (bruk en_US, eller ditt lands standardspråk)
 #
-# The OptionIDs declared here are used in the rules, too. For example:
+# Opsjons-IDene satt opp her blir brukt i reglene (nb_NO.dat). Eksempel:
 #
-# foo <- option("style") -> bar # bar is far better
+# øl <- option("stil") -> vin # Drikk heller vin
 #
-# this rule depends from the state of the "style" checkbox.
+# Denne regelen avhenger av at avkrysningsboksen "stil" er krysset av.
+#
 
-# options (starred options are checked)
+# BRUK HELST ENGELSKE NAVN FOR OPSJONER, for oversettingens skyld
 
+# opsjoner (de med stjerne foran blir krysset av når du installerer første gang)
 spelling: grammar cap dup pair
 punctuation: *spaces mdash quotation *times, spaces2 ndash apostrophe ellipsis, spaces3 minus - -
-others: metric numsep, nonmetric, falsefriends_en_US, falsefriends_da_DK
+others: metric numsep, nonmetric, *falsefriends_en_US, falsefriends_da_DK
 
 
-# titles
+# Titler, STANDARDSPRÅK
 [nb_NO=Grammatikkontroll (Bokmål)]
 spelling=Staving
 hyphen=Sammenskrevne ord skrevet med bindestrek
@@ -58,3 +66,7 @@ metric=Konvertér til metrisk (°C, km/h, m, kg, l)\nKonvertering av måleenhete
 nonmetric=Konvertér til ikke-metrisk (°F, mph, ft, lb, gal)\nKonvertering av måleenheter fra °C; km/t; cm, m, km; kg; l. 
 falsefriends_en_US=Engelske falske venner
 falsefriends_da_DK=Danske falske venner
+
+# Titler, andre språk
+# <kopier alt over, og oversett>
+

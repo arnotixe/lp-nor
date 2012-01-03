@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <oor:component-schema xmlns:oor="http://openoffice.org/2001/registry" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-oor:name="Lightproof_en_US" oor:package="org.openoffice" xml:lang="en-US">
+oor:name="Lightproof_nb_NO" oor:package="org.openoffice" xml:lang="en-US">
 <info>
 <author></author>
 <desc>Contains the options data used for the test extensions.</desc>
 </info>
 <templates>
 
-                <group oor:name="en_US">
+                <group oor:name="nb_NO">
                         <info>
                                 <desc>The data for one leaf.</desc>
                         </info>
@@ -62,7 +62,10 @@ oor:name="Lightproof_en_US" oor:package="org.openoffice" xml:lang="en-US">
 <prop oor:name="nonmetric" oor:type="xs:string">
                                 <value></value>
 </prop>
-<prop oor:name="falsefriends_en_UK" oor:type="xs:string">
+<prop oor:name="falsefriends_en_US" oor:type="xs:string">
+                                <value></value>
+</prop>
+<prop oor:name="falsefriends_da_DK" oor:type="xs:string">
                                 <value></value>
 </prop>
                 </group>
@@ -70,7 +73,7 @@ oor:name="Lightproof_en_US" oor:package="org.openoffice" xml:lang="en-US">
         <component>
                 <group oor:name="Leaves">
 
-                        <node-ref oor:name="en_US" oor:node-type="en_US"/>
+                        <node-ref oor:name="nb_NO" oor:node-type="nb_NO"/>
                 </group>
         </component>
         
